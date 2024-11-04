@@ -4,6 +4,7 @@ import RPi.GPIO as gpio
 import time
 app = Flask(__name__)
 
+leftforward=27
 gpio.setmode(gpio.BCM)
 gpio.setwarnings(False)
 gpio.setup(27, gpio.OUT)
@@ -18,45 +19,50 @@ def index():
 
     return render_template('robot.html')
 
-@app.route('/left')
 
-def left():
+@app.route('/forward')
+
+def forward():
     gpio.output(27, True)
     gpio.output(22, False)
     gpio.output(23, True)
     gpio.output(24, False)
+    time.sleep(1)
+    stop()
+    return "moving forward"
+
+@app.route('/reverse')
+
+def reverse():
+    gpio.output(27, False)
+    gpio.output(22, True)
+    gpio.output(23, False)
+    gpio.output(24, False)
+    time.sleep(1)
+    stop()
+    return "reversing"
+
+@app.route('/left')
+
+def left():
+    gpio.output(22, False)
+    gpio.output(27, True)
+    gpio.output(23, True)
+    gpio.output(24, False)
+    time.sleep(1)
     stop()
     return "left"
 
 @app.route('/right')
 
 def right():
-    gpio.output(27, False)
-    gpio.output(22, True)
-    gpio.output(23, False)
-    gpio.output(24, True)
-    stop()
-    return "right"
-
-@app.route('/forward')
-
-def forward():
-    gpio.output(27, False)
-    gpio.output(22, True)
-    gpio.output(23, False)
-    gpio.output(24, True)
-    stop()
-    return "forward"
-
-@app.route('/reverse')
-
-def reverse():
     gpio.output(27, True)
     gpio.output(22, False)
-    gpio.output(23, True)
-    gpio.output(24, False)
+    gpio.output(23, False)
+    gpio.output(24, True)
+    time.sleep(1)
     stop()
-    return "reverse"
+    return "turning right"
 
 @app.route('/stop')
 def stop():
@@ -64,7 +70,7 @@ def stop():
     gpio.output(22, False)
     gpio.output(23, False)
     gpio.output(24, False)
-    return "stop"
+    return "stopped"
 
 if __name__ == "__main__":
 
