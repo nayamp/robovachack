@@ -45,8 +45,8 @@ def reverse():
 @app.route('/left')
 
 def left():
-    gpio.output(22, False)
-    gpio.output(27, True)
+    gpio.output(27, False)
+    gpio.output(22, True)
     gpio.output(23, True)
     gpio.output(24, False)
     time.sleep(1)
