@@ -1,12 +1,11 @@
 from flask import Flask
 from flask import render_template, request
-import RPi.GPIO as GPIO
+import RPi.GPIO as gpio
 import time
-from hardware import motortest
 app = Flask(__name__)
 
-motortest.init()
-
+gpio.setmode(gpio.BCM)
+gpio.setwarnings(False) 
 a=1
 
 @app.route("/")
@@ -15,34 +14,52 @@ def index():
 
     return render_template('robot.html')
 
-@app.route('/left_side')
+@app.route('/left')
 
-def left_side():
-    motortest.left_turn(3)
+def left():
+    gpio.output(27, True)
+    gpio.output(22, False)
+    gpio.output(23, True)
+    gpio.output(24, False)
+    stop()
     return 200
 
-@app.route('/right_side')
+@app.route('/right')
 
-def right_side():
-    motortest.right_turn(3)
+def right():
+    gpio.output(27, False)
+    gpio.output(22, True)
+    gpio.output(23, False)
+    gpio.output(24, True)
+    stop()
     return 200
 
-@app.route('/up_side')
+@app.route('/forward')
 
-def up_side():
-    motortest.forward(3)
+def forward():
+    gpio.output(27, False)
+    gpio.output(22, True)
+    gpio.output(23, False)
+    gpio.output(24, True)
+    stop()
     return 200
 
 @app.route('/down_side')
 
-def down_side():
-    motortest.reverse()
+def reverse():
+    gpio.output(27, True)
+    gpio.output(22, False)
+    gpio.output(23, True)
+    gpio.output(24, False)
+    stop()
     return 200
 
 @app.route('/stop')
-
 def stop():
-   motortest.stop()
+    gpio.output(27, False)
+    gpio.output(22, False)
+    gpio.output(23, False)
+    gpio.output(24, False)
 
 
 if __name__ == "__main__":
