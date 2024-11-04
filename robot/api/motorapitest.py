@@ -5,7 +5,11 @@ import time
 app = Flask(__name__)
 
 gpio.setmode(gpio.BCM)
-gpio.setwarnings(False) 
+gpio.setwarnings(False)
+gpio.setup(27, gpio.OUT)
+gpio.setup(22, gpio.OUT)
+gpio.setup(23, gpio.OUT)
+gpio.setup(24, gpio.OUT)
 a=1
 
 @app.route("/")
@@ -44,7 +48,7 @@ def forward():
     stop()
     return 200
 
-@app.route('/down_side')
+@app.route('/reverse')
 
 def reverse():
     gpio.output(27, True)
