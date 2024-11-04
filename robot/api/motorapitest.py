@@ -37,7 +37,7 @@ def reverse():
     gpio.output(27, False)
     gpio.output(22, True)
     gpio.output(23, False)
-    gpio.output(24, False)
+    gpio.output(24, True)
     time.sleep(1)
     stop()
     return "reversing"
