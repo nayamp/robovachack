@@ -26,7 +26,7 @@ def left():
     gpio.output(23, True)
     gpio.output(24, False)
     stop()
-    return 200
+    return "left"
 
 @app.route('/right')
 
@@ -36,7 +36,7 @@ def right():
     gpio.output(23, False)
     gpio.output(24, True)
     stop()
-    return 200
+    return "right"
 
 @app.route('/forward')
 
@@ -46,7 +46,7 @@ def forward():
     gpio.output(23, False)
     gpio.output(24, True)
     stop()
-    return 200
+    return "forward"
 
 @app.route('/reverse')
 
@@ -56,7 +56,7 @@ def reverse():
     gpio.output(23, True)
     gpio.output(24, False)
     stop()
-    return 200
+    return "reverse"
 
 @app.route('/stop')
 def stop():
@@ -64,7 +64,7 @@ def stop():
     gpio.output(22, False)
     gpio.output(23, False)
     gpio.output(24, False)
-
+    return "stop"
 
 if __name__ == "__main__":
 
