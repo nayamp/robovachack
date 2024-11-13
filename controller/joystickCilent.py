@@ -2,6 +2,7 @@ import sys
 import pygame
 from pygame.locals import *
 import requests
+import time
 
 class joystick_handler(object):
     def __init__(self, id):
@@ -52,7 +53,7 @@ class input_test(object):
             #     self.draw_joy(i)
             # pygame.display.flip()
             # self.clock.tick(30)
-            for event in [pygame.event.wait(), ] + pygame.event.get():
+            for event in pygame.event.get():
                 # QUIT             none
                 # ACTIVEEVENT      gain, state
                 # KEYDOWN          unicode, key, mod
@@ -74,30 +75,54 @@ class input_test(object):
                 #     self.quit()
                 # elif event.type == VIDEORESIZE:
                 #     self.screen = pygame.display.set_mode(event.size, RESIZABLE)
-                while event.type == JOYAXISMOTION:
+                elif event.type == JOYAXISMOTION:
                     self.joy[event.joy].axis[event.axis] = event.value
-                    if event.value>.06 or event.value<-.06:
-                        if event.axis==1 and event.value>0:
+                    if event.value>.6 and event.axis==1:
+                        try:
                             response=requests.get(url="http://10.0.0.161:5010/forward")
-                            print(response)
-                        print('AXIS!  VALUE=',event.axis,event.value)
-                while event.type == JOYBALLMOTION:
+                            print('AXIS!  VALUE=',event.axis,event.value, response)
+                            time.sleep(1)
+                        except Exception as e:
+                            print("ERROR:",e,'AXIS!  VALUE=',event.axis,event.value,)
+                    elif event.value<-.6 and event.axis==1:
+                        try:
+                            response=requests.get(url="http://10.0.0.161:5010/reverse")
+                            print('AXIS!  VALUE=',event.axis,event.value, response)
+                            time.sleep(1)
+                        except Exception as e:
+                            print("ERROR:",e,'AXIS!  VALUE=',event.axis,event.value,)
+                    elif event.value>.6 and event.axis==0:
+                        try:
+                            response=requests.get(url="http://10.0.0.161:5010/left")
+                            print('AXIS!  VALUE=',event.axis,event.value, response)
+                            time.sleep(1)
+                        except Exception as e:
+                            print("ERROR:",e,'AXIS!  VALUE=',event.axis,event.value,)
+                    elif event.value<-.6 and event.axis==0:
+                        try:
+                            response=requests.get(url="http://10.0.0.161:5010/right")
+                            print('AXIS!  VALUE=',event.axis,event.value, response)
+                            time.sleep(1)
+                        except Exception as e:
+                            print("ERROR:",e,'AXIS!  VALUE=',event.axis,event.value,)
+
+                elif event.type == JOYBALLMOTION:
                     self.joy[event.joy].ball[event.ball] = event.rel
                     print('BALL!  VALUE=',event.ball,event.rel)
-                while event.type == JOYHATMOTION:
+                elif event.type == JOYHATMOTION:
                     self.joy[event.joy].hat[event.hat] = event.value
                     print('HAT!  VALUE=',event.hat,event.value)
-                while event.type == JOYBUTTONUP:
+                elif event.type == JOYBUTTONUP:
                     self.joy[event.joy].button[event.button] = 0
                     print('BUTTONUP!  VALUE=',event.button)
-                while event.type == JOYBUTTONDOWN:
+                elif event.type == JOYBUTTONDOWN:
                     self.joy[event.joy].button[event.button] = 1
                     print('BUTTONDOWN!  VALUE=',event.button)
 
 
     def quit(self, status=0):
         pygame.quit()
-        sys.exit(status)
+        ##sys.exit(status)
 
 if __name__ == "__main__":
     program = input_test()
