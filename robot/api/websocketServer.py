@@ -8,22 +8,29 @@ async def ws_server(websocket):
     try:
         while True:
             # Receiving values from client
-            name = await websocket.recv()
-            age = await websocket.recv()
- 
+            name = await websocket.recv() 
             # Prompt message when any of the field is missing
-            if name == "" or age == "":
+            if name == "":
                 print("Error Receiving Value from Client.")
                 break
- 
+            if name =="default":
+                continue
+            if name =="forward":
+                print("nice,forward")
+                continue
+            if name =="back":
+                print("nice,back")
+                continue
+            if name =="left":
+                print("nice,left")
+                continue
+            if name =="right":
+                print("nice,right")
+                continue
             # Printing details received by client
-            print("Details Received from Client:")
-            print(f"Name: {name}")
-            print(f"Age: {age}")
- 
             # Sending a response back to the client
-            if int(age) < 18:
-                await websocket.send(f"Sorry! {name}, You can't join the club.")
+            ##if int(age) < 18:
+                ##await websocket.send(f"Sorry! {name}, You can't join the club.")
             else:
                 await websocket.send(f"Welcome aboard, {name}.")
  

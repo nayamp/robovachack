@@ -4,6 +4,8 @@ import RPi.GPIO as gpio
 import time
 app = Flask(__name__)
 
+
+##this program would work alongside the controller/joystickClient.py
 leftforward=27
 gpio.setmode(gpio.BCM)
 gpio.setwarnings(False)
