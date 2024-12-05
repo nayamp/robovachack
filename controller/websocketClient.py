@@ -8,25 +8,30 @@ async def ws_client():
     print("WebSocket: Client Connected.")
     url = "ws://localhost:7890"
     name="default"
+    var = 0
     # Connect to the server
     async with websockets.connect(url) as ws:
 
         while True:  # making a loop
             name="default"
             try:  # used try so that if user pressed other than the given key error will not be shown
-                if keyboard.is_pressed('w'):  # if key 'q' is pressed 
+                if keyboard.read_key()=="e":
+                    var = not var
+                    await ws.send(f"{var}")
+                    continue
+                if keyboard.read_key()=="w":  # if key 'q' is pressed 
                     name='forward'
                     await ws.send(f"{name}")
                     continue  # finishing the loop
-                if keyboard.is_pressed('a'):  # if key 'q' is pressed 
+                if keyboard.read_key()=="a":  # if key 'q' is pressed 
                     name='left'
                     await ws.send(f"{name}")
                     continue  # finishing the loop
-                if keyboard.is_pressed('d'):  # if key 'q' is pressed 
+                if keyboard.read_key()=="d":  # if key 'q' is pressed 
                     name='right'
                     await ws.send(f"{name}")
                     continue  # finishing the loop
-                if keyboard.is_pressed('s'):  # if key 'q' is pressed 
+                if keyboard.read_key()=="s":  # if key 'q' is pressed 
                     name='back'
                     await ws.send(f"{name}")
                     continue  # finishing the loop
