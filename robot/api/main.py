@@ -12,7 +12,7 @@ def index():
 
 @socketio.on('connect')
 def handle_connect():
-    print('Client connected')
+    print('Client connected!')
 
 @socketio.on('message')
 def handle_message(data):
